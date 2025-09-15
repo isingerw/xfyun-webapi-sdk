@@ -7,7 +7,7 @@ export default defineConfig({
   root: 'demo',
   publicDir: false,
   server: {
-    port: 5175,
+    port: 5174,
     host: true,
     allowedHosts: ['y0t7eazyr435.ngrok.xiaomiqiu123.top'],
     proxy: {

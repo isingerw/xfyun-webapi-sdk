@@ -194,7 +194,7 @@ export default {
   props: {
     serverBase: {
       type: String,
-      default: "http://127.0.0.1:8083"
+      default: ""
     },
     authToken: {
       type: String,
