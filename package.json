@@ -85,7 +85,7 @@
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
-    "xfyun-webapi-sdk": "^1.2.6"
+    "xfyun-webapi-sdk": "^1.2.7"
   },
   "repository": {
     "type": "git",
