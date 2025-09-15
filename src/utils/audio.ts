@@ -306,16 +306,24 @@ let audioContextRefCount = 0;
  * @returns AudioContext实例
  */
 export function getSharedAudioContext(sampleRate: number = AUDIO_CONFIG.DEFAULT_SAMPLE_RATE): AudioContext {
-    if (sharedAudioCtx && sharedAudioCtx.sampleRate === sampleRate) {
+    // 若已有实例且采样率一致且未关闭，则复用
+    if (sharedAudioCtx && sharedAudioCtx.sampleRate === sampleRate && sharedAudioCtx.state !== 'closed') {
         audioContextRefCount++;
         return sharedAudioCtx;
     }
 
-    // 如果存在不同采样率的AudioContext，先释放
+    // 若已有实例但已关闭或采样率不一致，则释放旧实例
     if (sharedAudioCtx) {
-        releaseSharedAudioContext();
+        try {
+            // 强制将引用计数归零以便真正关闭
+            audioContextRefCount = 1;
+            releaseSharedAudioContext();
+        } catch {
+            // ignore
+        }
     }
 
+    // 创建新实例
     sharedAudioCtx = new (window.AudioContext || (window as any).webkitAudioContext)({
         sampleRate
     });
@@ -365,7 +373,12 @@ export async function suspendSharedAudioContext(): Promise<void> {
  * 恢复共享的AudioContext
  */
 export async function resumeSharedAudioContext(): Promise<void> {
-    if (sharedAudioCtx && sharedAudioCtx.state !== 'running') {
+    if (!sharedAudioCtx || sharedAudioCtx.state === 'closed') {
+        // 在需要时重建默认采样率的上下文
+        getSharedAudioContext(AUDIO_CONFIG.DEFAULT_SAMPLE_RATE);
+        return;
+    }
+    if (sharedAudioCtx.state !== 'running') {
         try { await sharedAudioCtx.resume(); } catch {}
     }
 }
