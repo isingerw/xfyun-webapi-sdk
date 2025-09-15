@@ -67,6 +67,19 @@ export default function TtsPanel(props: {
     "Websocket API具备流式传输能力，适用于需要流式数据传输的服务场景。",
   );
 
+  // 进入页面自动合成播放
+  useEffect(() => {
+    if (text.trim()) {
+      // 延迟到下一帧，确保播放器/客户端已就绪
+      const timer = setTimeout(() => {
+        void handlePlay();
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  // 仅在首次挂载时触发
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // 便捷模式：使用高阶 Hook（内置播放器）
   const { status, error, speak, stop, forceRecreate } = useTts({
     serverBase,
