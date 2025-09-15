@@ -12,8 +12,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
       xfyun-webapi-sdk:
-        specifier: ^1.2.4
-        version: 1.2.4(react@18.3.1)(vue@3.5.21(typescript@5.9.2))
+        specifier: ^1.2.7
+        version: 1.2.7(react@18.3.1)(vue@3.5.21(typescript@5.9.2))
     devDependencies:
       '@ant-design/icons':
         specifier: ^5.4.0
@@ -1486,8 +1486,8 @@ packages:
     resolution: {integrity: sha512-si7QWI6zUMq56bESFvagtmzMdGOtoxfR+Sez11Mobfc7tm+VkUckk9bW2UeffTGVUbOksxmSw0AA2gs8g71NCQ==}
     engines: {node: '>=12'}
 
-  xfyun-webapi-sdk@1.2.4:
-    resolution: {integrity: sha512-U8Zaj2mhAXxvoZOWq9vjpfsjdDbVLOvdDdM6tdTaMw9CHhB2M8xTqKBn53SXNaFQcBriqTM+lWL/4cCZuwT5xQ==}
+  xfyun-webapi-sdk@1.2.7:
+    resolution: {integrity: sha512-cBbymGPKo6K1BMhAaL2NpxemUDqSBcxii6g9uOqk4XkYq2QB3rpZHhmHzw7I3Kka4eW5mq2/BQWiZ7KQV4vUwg==}
     peerDependencies:
       react: '>=16.8.0'
       vue: '>=2.6.0 || >=3.2.0'
@@ -2949,7 +2949,7 @@ snapshots:
       string-width: 5.1.2
       strip-ansi: 7.1.2
 
-  xfyun-webapi-sdk@1.2.4(react@18.3.1)(vue@3.5.21(typescript@5.9.2)):
+  xfyun-webapi-sdk@1.2.7(react@18.3.1)(vue@3.5.21(typescript@5.9.2)):
     dependencies:
       crypto-js: 4.2.0
     optionalDependencies:
