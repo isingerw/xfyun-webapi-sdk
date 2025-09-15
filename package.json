@@ -1,6 +1,6 @@
 {
   "name": "xfyun-webapi-sdk",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "科大讯飞语音识别和语音合成SDK，支持Vue2/3和React",
   "keywords": [
     "xfyun",

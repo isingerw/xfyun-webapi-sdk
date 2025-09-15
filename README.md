@@ -1,10 +1,38 @@
 # 科大讯飞语音识别和合成 SDK
 
+<div align="center">
+
 [![npm version](https://img.shields.io/npm/v/xfyun-webapi-sdk.svg)](https://www.npmjs.com/package/xfyun-webapi-sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4+-blue.svg)](https://www.typescriptlang.org/)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/isingerw/xfyun-webapi-sdk)
+[![Downloads](https://img.shields.io/npm/dm/xfyun-webapi-sdk.svg)](https://www.npmjs.com/package/xfyun-webapi-sdk)
 
 一个功能完整的科大讯飞语音识别和语音合成 SDK，支持 Vue 2/3 和 React，提供现代化的 TypeScript 支持和优秀的开发体验。
+
+[快速开始](#快速开始) • [文档](#文档) • [示例](#示例) • [贡献](#贡献) • [许可证](#许可证)
+
+</div>
+
+## ✨ 特性
+
+- 🚀 **多框架支持** - 同时支持 Vue 2/3 和 React
+- 🎯 **完整功能** - 支持语音识别(IAT)、语音合成(TTS)、实时语音识别(RTASR)、长文本合成(DTS)
+- 💻 **TypeScript** - 完整的类型定义和智能提示
+- 🛠️ **易于使用** - 简洁的 API 设计和丰富的配置选项
+- 🎵 **音频处理** - 内置音频处理工具和性能优化
+- 🔄 **错误处理** - 完善的错误处理和重试机制
+- 🌐 **现代浏览器** - 支持 WebSocket、Web Audio API、MediaRecorder 等现代特性
+
+## 📚 文档
+
+- [📖 完整文档](README.md) - 详细的使用说明和API文档
+- [🏗️ 项目架构](ARCHITECTURE.md) - 项目架构和设计原则
+- [🚀 快速开始](QUICK_START.md) - 5分钟快速上手指南
+- [💡 最佳实践](BEST_PRACTICES.md) - 开发和使用的最佳实践
+- [📋 发布说明](RELEASE_NOTES.md) - 版本更新和发布说明
+- [📊 项目总结](PROJECT_SUMMARY.md) - 项目特性和技术栈介绍
+- [🤝 贡献指南](CONTRIBUTING.md) - 如何参与项目贡献
 
 ## 特性
 
@@ -749,6 +777,10 @@ const { onResult } = useIat({
 - Email: zhangsingerw@gmail.com
 
 ## 更新日志
+### 1.2.6
+- 构建流程优化 - 优化构建和发布流程
+- 文档生成自动化 - 支持文档自动生成和更新
+- 版本发布自动化 - 支持自动化版本发布
 
 ### v1.2.5
 - 修复 DtsPanel.tsx 中的 TypeScript 类型错误
