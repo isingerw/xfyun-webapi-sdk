@@ -1,0 +1,41 @@
+# 开发文件
+src/
+public/
+demo/
+node_modules/
+*.log
+*.tgz
+
+# 构建工具
+vite.config.ts
+tsup.config.ts
+tsconfig.json
+
+# 开发依赖
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# 测试
+coverage/
+*.test.ts
+*.spec.ts
+
+# 其他
+.git/
+.gitignore
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

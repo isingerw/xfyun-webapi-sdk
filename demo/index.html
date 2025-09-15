@@ -1,0 +1,979 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>xfyun-webapi-sdk Demo</title>
+    <link rel="icon" href="/favicon.png" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        background: linear-gradient(135deg, #1763ff 0%, #4096ff 50%, #69b1ff 100%);
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+
+      .app-container {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2d3748;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        height: 2rem;
+        width: auto;
+        object-fit: contain;
+        margin-right: 0.75rem;
+      }
+
+      .framework-switcher {
+        display: flex;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 16px;
+        padding: 6px;
+        box-shadow: 0 8px 32px rgba(23, 99, 255, 0.2);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .framework-switcher button {
+        padding: 12px 24px;
+        border: none;
+        background: transparent;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        color: #4a5568;
+        position: relative;
+        overflow: hidden;
+        min-width: 80px;
+      }
+
+      .framework-switcher button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #1763ff, #4096ff);
+        opacity: 0;
+        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(23, 99, 255, 0.3);
+      }
+
+      .framework-switcher button.active {
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(23, 99, 255, 0.4);
+        position: relative;
+        z-index: 2;
+      }
+
+      .framework-switcher button.active::before {
+        opacity: 1;
+        z-index: -1;
+      }
+
+      /* 强制设置框架切换器选中按钮的文字颜色 */
+      .framework-switcher button.active,
+      .framework-switcher button.active:hover,
+      .framework-switcher button.active:focus,
+      .framework-switcher button.active:active,
+      .framework-switcher button.active:visited {
+        color: white !important;
+        -webkit-text-fill-color: white !important;
+        -webkit-text-stroke-color: white !important;
+        text-fill-color: white !important;
+        text-stroke-color: white !important;
+      }
+
+      .framework-switcher button span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .framework-switcher button:hover:not(.active) {
+        color: #1763ff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(23, 99, 255, 0.2);
+      }
+
+      .framework-switcher button:hover:not(.active)::before {
+        opacity: 0.1;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 2rem;
+        width: 95vw;
+        max-width: 95vw;
+        margin: 0 auto;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .framework-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto
+      }
+
+      .loading-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+        color: #667eea;
+        font-size: 1.1rem;
+      }
+
+      .loading-spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(102, 126, 234, 0.3);
+        border-top: 2px solid #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-right: 8px;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      .error-message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+        color: #e53e3e;
+        font-size: 1.1rem;
+        background: rgba(229, 62, 62, 0.1);
+        border-radius: 8px;
+        margin: 1rem;
+      }
+
+      /* React应用样式 */
+      .react-app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 20px;
+        max-width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .react-app .tabs {
+        margin: 40px auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        max-width: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 16px;
+        padding: 8px;
+        box-shadow: 0 8px 32px rgba(23, 99, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.4);
+      }
+
+      .react-app .tabs button {
+        padding: 10px 18px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        white-space: nowrap;
+        color: #4a5568;
+        position: relative;
+        overflow: hidden;
+        min-width: 70px;
+      }
+
+      .react-app .tabs button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: #ffffff;
+        background: linear-gradient(135deg, #1763ff, #4096ff);
+        opacity: 0;
+        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(23, 99, 255, 0.3);
+      }
+
+      .react-app .tabs button:hover {
+        color: #1763ff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(23, 99, 255, 0.2);
+      }
+
+      .react-app .tabs button:hover::before {
+        opacity: 0.1;
+      }
+
+      .react-app .tabs button.active {
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(23, 99, 255, 0.4);
+        position: relative;
+        z-index: 2;
+      }
+
+      .react-app .tabs button.active::before {
+        opacity: 1;
+        z-index: -1;
+      }
+
+      /* 强制设置选中按钮的文字颜色，覆盖所有可能的状态 */
+      .react-app .tabs button.active,
+      .react-app .tabs button.active:hover,
+      .react-app .tabs button.active:focus,
+      .react-app .tabs button.active:active,
+      .react-app .tabs button.active:visited {
+        color: white !important;
+        -webkit-text-fill-color: white !important;
+        -webkit-text-stroke-color: white !important;
+        text-fill-color: white !important;
+        text-stroke-color: white !important;
+      }
+
+      /* 使用更高优先级的选择器 */
+      div.react-app div.tabs button.active {
+        color: white !important;
+        -webkit-text-fill-color: white !important;
+      }
+
+      /* 针对React组件的内联样式覆盖 */
+      .react-app .tabs button.active[style] {
+        color: white !important;
+        -webkit-text-fill-color: white !important;
+      }
+
+      .react-app .panel {
+        margin-top: 16px;
+        padding: 0;
+        width: 100%;
+        flex: 1;
+      }
+
+      /* React面板统一样式 */
+      .react-panel {
+        height: 100%;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        background: #fff;
+      }
+
+      /* 统一面板样式 */
+      .unified-panel {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        overflow: hidden;
+      }
+
+      .panel-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        background: linear-gradient(135deg, #1763ff 0%, #4096ff 100%);
+        color: white;
+        border-bottom: 1px solid #e0e0e0;
+        flex-shrink: 0;
+      }
+
+      .panel-title-main {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .panel-title-text {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: white;
+      }
+
+      .panel-title-tags {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .panel-title-extra {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .panel-content {
+        flex: 1;
+        overflow: hidden;
+        padding: 20px;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .panel-layout {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .panel-left {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .panel-right {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .config-card,
+      .action-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .config-card .ant-card-body,
+      .action-card .ant-card-body {
+        flex: 1;
+        padding: 16px;
+        min-height: 0;
+        height: 100% !important;
+        max-height: none !important;
+      }
+
+      /* 表单字段样式 */
+      .form-field-label {
+        font-weight: 500;
+        color: #333;
+      }
+
+      .form-input,
+      .form-select,
+      .form-textarea {
+        border-radius: 6px;
+        border: 1px solid #d9d9d9;
+        transition: all 0.3s;
+      }
+
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        border-color: #1763ff;
+        box-shadow: 0 0 0 2px rgba(23, 99, 255, 0.1);
+      }
+
+      .form-slider {
+        margin: 8px 0;
+      }
+
+      .form-switch {
+        margin: 4px 0;
+      }
+
+      /* 按钮样式 */
+      .action-button {
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.3s;
+      }
+
+      .action-button.ant-btn-primary {
+        background: #1763ff;
+        border-color: #1763ff;
+      }
+
+      .action-button.ant-btn-primary:hover {
+        background: #4096ff;
+        border-color: #4096ff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(23, 99, 255, 0.3);
+      }
+
+      .button-group {
+        margin: 8px 0;
+      }
+
+      /* 内容区域样式 */
+      .content-area {
+        margin: 16px 0;
+        padding: 16px;
+        background: #fafafa;
+        border-radius: 8px;
+        border: 1px solid #f0f0f0;
+      }
+
+      .content-area-title {
+        margin: 0 0 12px 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .content-area-body {
+        color: #666;
+      }
+
+      .status-display {
+        margin: 8px 0;
+      }
+
+      .status-progress {
+        margin-left: 8px;
+      }
+
+      .audio-level {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 8px 0;
+      }
+
+      .audio-level-bar {
+        flex: 1;
+        max-width: 200px;
+      }
+
+      .result-display {
+        margin: 16px 0;
+      }
+
+      .result-display .ant-card-body {
+        padding: 12px;
+        max-height: 200px;
+      }
+
+      /* 内容区域滚动优化 */
+      .content-area {
+        margin: 16px 0;
+        padding: 16px;
+        background: #fafafa;
+        border-radius: 8px;
+        border: 1px solid #f0f0f0;
+      }
+
+      .content-area-body {
+        color: #666;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 1200px) {
+        .panel-layout .ant-col {
+          margin-bottom: 16px;
+        }
+
+        .config-card .ant-card-body,
+        .action-card .ant-card-body {
+          flex: 1;
+          min-height: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .panel-title {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+          padding: 12px 16px;
+        }
+
+        .panel-title-main {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        .panel-content {
+          padding: 16px;
+        }
+
+        .panel-layout .ant-col {
+          margin-bottom: 16px;
+        }
+
+        .config-card .ant-card-body,
+        .action-card .ant-card-body {
+          flex: 1;
+          min-height: 0;
+          padding: 12px;
+        }
+
+        .content-area {
+          /* 移除高度限制，允许自然滚动 */
+        }
+
+        .content-area-body {
+          /* 移除高度限制，允许自然滚动 */
+        }
+
+        .form-field-label {
+          font-size: 14px;
+        }
+
+        .action-button {
+          font-size: 12px;
+          padding: 6px 12px;
+        }
+
+        .button-group {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .panel-content {
+          padding: 12px;
+        }
+
+        .config-card .ant-card-body,
+        .action-card .ant-card-body {
+          flex: 1;
+          min-height: 0;
+          padding: 8px;
+        }
+
+        .content-area {
+          padding: 12px;
+        }
+
+        .content-area-body {
+          /* 移除高度限制，允许自然滚动 */
+        }
+
+        .form-field-label {
+          font-size: 13px;
+        }
+
+        .action-button {
+          font-size: 11px;
+          padding: 4px 8px;
+        }
+
+        .button-group {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .button-group .action-button {
+          width: 100%;
+          margin-bottom: 4px;
+        }
+      }
+
+      .react-panel .ant-card {
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 8px !important;
+        margin-bottom: 16px;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      .react-panel .ant-card-head {
+        border-bottom: 1px solid #f0f0f0 !important;
+        background: #fafafa;
+      }
+
+      .react-panel .ant-card-head-title {
+        color: #1763ff !important;
+        font-weight: 600;
+      }
+
+      .react-panel .ant-card-body {
+        flex: 1 !important;
+        padding: 16px !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        max-height: none !important;
+      }
+
+      .react-panel .ant-btn-primary {
+        background-color: #1763ff !important;
+        border-color: #1763ff !important;
+        color: #fff !important;
+      }
+
+      .react-panel .ant-btn-primary:hover {
+        background-color: #4096ff !important;
+        border-color: #4096ff !important;
+        color: #fff !important;
+      }
+
+      .react-panel .ant-tag {
+        border-color: #1763ff !important;
+        color: #1763ff !important;
+      }
+
+      .react-panel .ant-tag.ant-tag-blue {
+        color: white !important;
+        background-color: #1763ff !important;
+        border-color: #1763ff !important;
+      }
+
+      /* Vue面板统一样式 */
+      .vue-panel {
+        height: 100%;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        background: #fff;
+        overflow: hidden;
+        padding: 16px;
+        height: calc(95vh - 120px);
+      }
+
+      .vue-panel .demo-section {
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 8px !important;
+        margin-bottom: 16px;
+        background: #fafafa;
+        padding: 16px;
+      }
+
+      .vue-panel .demo-section-title {
+        color: #1763ff !important;
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .vue-panel .demo-button {
+        background-color: #1763ff !important;
+        border-color: #1763ff !important;
+        color: #fff !important;
+      }
+
+      .vue-panel .demo-button.primary {
+        background-color: #1763ff !important;
+        border-color: #1763ff !important;
+        color: #fff !important;
+      }
+
+      .vue-panel .demo-button.primary:hover {
+        background-color: #4096ff !important;
+        border-color: #4096ff !important;
+        color: #fff !important;
+      }
+
+      .vue-panel .demo-button:hover {
+        background-color: #4096ff !important;
+        border-color: #4096ff !important;
+      }
+
+      .vue-panel .demo-button:disabled {
+        background-color: #d9d9d9 !important;
+        border-color: #d9d9d9 !important;
+        color: #fff !important;
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          padding: 1rem;
+        }
+
+        .header-content {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .logo-icon {
+          height: 1.5rem;
+          width: auto;
+        }
+
+        .main-content {
+          padding: 1rem;
+          width: 98%;
+          max-width: 98vw;
+        }
+
+        .framework-switcher {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .framework-switcher button {
+          flex: 1;
+        }
+
+        .react-app {
+          max-width: 98%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="header">
+        <div class="header-content">
+          <div class="logo">
+            <img src="/logo-new.svg" alt="讯飞语音" class="logo-icon" />
+            <span>语音服务演示</span>
+          </div>
+          <div class="framework-switcher">
+            <button id="react-btn" class="active">
+              <span>React</span>
+            </button>
+            <button id="vue-btn">
+              <span>Vue</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="framework-container">
+          <div id="root"></div>
+          <div id="vue-root" style="display: none;"></div>
+          <div id="unified-log-panel"></div>
+          <div id="loading" class="loading-indicator" style="display: none;">
+            <div class="loading-spinner"></div>
+            <span>正在加载...</span>
+          </div>
+          <div id="error" class="error-message" style="display: none;">
+            <span>加载失败，请刷新页面重试</span>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- React 应用 -->
+    <script type="module" src="/components/react/main.tsx"></script>
+
+    <!-- Vue 应用加载器 -->
+    <script type="module">
+      // 应用状态管理
+      const AppState = {
+        currentFramework: 'react',
+        vueApp: null,
+        isLoading: false,
+        hasError: false,
+        unifiedLogPanel: null
+      }
+
+      // 初始化统一日志面板
+      async function initUnifiedLogPanel() {
+        try {
+          const { createApp } = await import('vue')
+          const UnifiedLogPanel = await import('./components/shared/UnifiedLogPanel.vue')
+
+          AppState.unifiedLogPanel = createApp(UnifiedLogPanel.default)
+          AppState.unifiedLogPanel.mount('#unified-log-panel')
+        } catch (error) {
+          console.error('Failed to load unified log panel:', error)
+        }
+      }
+
+      // DOM 元素引用
+      const elements = {
+        reactBtn: document.getElementById('react-btn'),
+        vueBtn: document.getElementById('vue-btn'),
+        reactRoot: document.getElementById('root'),
+        vueRoot: document.getElementById('vue-root'),
+        loading: document.getElementById('loading'),
+        error: document.getElementById('error')
+      }
+
+      // 显示加载状态
+      function showLoading() {
+        elements.loading.style.display = 'flex'
+        elements.error.style.display = 'none'
+        AppState.isLoading = true
+      }
+
+      // 隐藏加载状态
+      function hideLoading() {
+        elements.loading.style.display = 'none'
+        AppState.isLoading = false
+      }
+
+      // 显示错误状态
+      function showError() {
+        elements.error.style.display = 'flex'
+        elements.loading.style.display = 'none'
+        AppState.hasError = true
+      }
+
+      // 隐藏错误状态
+      function hideError() {
+        elements.error.style.display = 'none'
+        AppState.hasError = false
+      }
+
+      // 更新按钮状态
+      function updateButtonStates(framework) {
+        elements.reactBtn.classList.toggle('active', framework === 'react')
+        elements.vueBtn.classList.toggle('active', framework === 'vue')
+      }
+
+      // 切换框架显示
+      function switchFramework(framework) {
+        elements.reactRoot.style.display = framework === 'react' ? 'block' : 'none'
+        elements.vueRoot.style.display = framework === 'vue' ? 'block' : 'none'
+        updateButtonStates(framework)
+        AppState.currentFramework = framework
+      }
+
+      // 加载Vue应用
+      async function loadVueApp() {
+        if (AppState.vueApp) return AppState.vueApp
+
+        try {
+          showLoading()
+          hideError()
+
+          const { createApp } = await import('vue')
+          const App = await import('./components/vue/App.vue')
+
+          AppState.vueApp = createApp(App.default)
+          AppState.vueApp.mount('#vue-root')
+
+          // 初始化统一日志面板
+          initUnifiedLogPanel()
+
+          hideLoading()
+          return AppState.vueApp
+        } catch (error) {
+          console.error('Failed to load Vue app:', error)
+          hideLoading()
+          showError()
+          throw error
+        }
+      }
+
+      // 显示React应用
+      function showReact() {
+        if (AppState.currentFramework === 'react') return
+        switchFramework('react')
+      }
+
+      // 显示Vue应用
+      async function showVue() {
+        if (AppState.currentFramework === 'vue') return
+
+        try {
+          await loadVueApp()
+          switchFramework('vue')
+        } catch (error) {
+          console.error('Failed to switch to Vue:', error)
+        }
+      }
+
+      // 事件监听器
+      elements.reactBtn.addEventListener('click', showReact)
+      elements.vueBtn.addEventListener('click', showVue)
+
+      // 键盘快捷键支持
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          if (e.key === '1') {
+            e.preventDefault()
+            showReact()
+          } else if (e.key === '2') {
+            e.preventDefault()
+            showVue()
+          }
+        }
+      })
+
+      // 初始化
+      showReact()
+
+      // 预加载Vue应用（在空闲时）
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          loadVueApp().catch(() => {
+            // 静默失败，用户点击时再重试
+          })
+        })
+      } else {
+        setTimeout(() => {
+          loadVueApp().catch(() => {
+            // 静默失败，用户点击时再重试
+          })
+        }, 2000)
+      }
+    </script>
+  </body>
+</html>

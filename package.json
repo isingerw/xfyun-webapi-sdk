@@ -1,0 +1,98 @@
+{
+  "name": "xfyun-webapi-sdk",
+  "version": "1.2.5",
+  "description": "科大讯飞语音识别和语音合成SDK，支持Vue2/3和React",
+  "keywords": [
+    "xfyun",
+    "voice",
+    "speech",
+    "recognition",
+    "synthesis",
+    "vue",
+    "react",
+    "typescript",
+    "sdk"
+  ],
+  "author": "Singerw Team",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js",
+      "require": "./dist/react/index.cjs"
+    },
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "import": "./dist/vue/index.js",
+      "require": "./dist/vue/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:core && npm run build:react && npm run build:vue && npm run postbuild:worklet",
+    "build:core": "tsup src/index.ts --dts --format cjs,esm --sourcemap --outDir dist",
+    "build:react": "tsup src/react/index.ts --dts --format cjs,esm --sourcemap --outDir dist/react",
+    "build:vue": "tsup src/vue/index.ts --dts --format cjs,esm --sourcemap --outDir dist/vue",
+    "postbuild:worklet": "node ./scripts/copy-worklet.mjs",
+    "dev": "tsup src/index.ts --dts --format cjs,esm --watch",
+    "clean": "rimraf dist",
+    "demo": "vite",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "vue": ">=2.6.0 || >=3.2.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^3.1.0",
+    "@vitejs/plugin-vue": "^4.6.0",
+    "antd": "^5.19.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.0.1",
+    "typescript": "^5.4.0",
+    "vite": "^4.5.0",
+    "vue": "^3.4.0"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "xfyun-webapi-sdk": "^1.2.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isingerw/xfyun-webapi-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/isingerw/xfyun-webapi-sdk/issues"
+  },
+  "homepage": "https://github.com/isingerw/xfyun-webapi-sdk#readme"
+}
