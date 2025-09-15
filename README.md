@@ -14,25 +14,20 @@
 
 </div>
 
-## ✨ 特性
+## 特性
 
-- 🚀 **多框架支持** - 同时支持 Vue 2/3 和 React
-- 🎯 **完整功能** - 支持语音识别(IAT)、语音合成(TTS)、实时语音识别(RTASR)、长文本合成(DTS)
-- 💻 **TypeScript** - 完整的类型定义和智能提示
-- 🛠️ **易于使用** - 简洁的 API 设计和丰富的配置选项
-- 🎵 **音频处理** - 内置音频处理工具和性能优化
-- 🔄 **错误处理** - 完善的错误处理和重试机制
-- 🌐 **现代浏览器** - 支持 WebSocket、Web Audio API、MediaRecorder 等现代特性
+- **多框架支持** - 同时支持 Vue 2/3 和 React
+- **完整功能** - 支持语音识别(IAT)、语音合成(TTS)、实时语音识别(RTASR)、长文本合成(DTS)
+- **TypeScript** - 完整的类型定义和智能提示
+- **易于使用** - 简洁的 API 设计和丰富的配置选项
+- **音频处理** - 内置音频处理工具和性能优化
+- **错误处理** - 完善的错误处理和重试机制
+- **现代浏览器** - 支持 WebSocket、Web Audio API、MediaRecorder 等现代特性
 
-## 📚 文档
+## 文档
 
-- [📖 完整文档](README.md) - 详细的使用说明和API文档
-- [🏗️ 项目架构](ARCHITECTURE.md) - 项目架构和设计原则
-- [🚀 快速开始](QUICK_START.md) - 5分钟快速上手指南
-- [💡 最佳实践](BEST_PRACTICES.md) - 开发和使用的最佳实践
-- [📋 发布说明](RELEASE_NOTES.md) - 版本更新和发布说明
-- [📊 项目总结](PROJECT_SUMMARY.md) - 项目特性和技术栈介绍
-- [🤝 贡献指南](CONTRIBUTING.md) - 如何参与项目贡献
+- [完整文档](README.md) - 详细的使用说明和API文档
+- [贡献指南](CONTRIBUTING.md) - 如何参与项目贡献
 
 ## 特性
 
