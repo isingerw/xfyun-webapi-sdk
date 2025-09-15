@@ -771,27 +771,4 @@ const { onResult } = useIat({
 - GitHub Issues: [https://github.com/isingerw/xfyun-webapi-sdk/issues](https://github.com/isingerw/xfyun-webapi-sdk/issues)
 - Email: zhangsingerw@gmail.com
 
-## 更新日志
-### 1.2.6
-- 构建流程优化 - 优化构建和发布流程
-- 文档生成自动化 - 支持文档自动生成和更新
-- 版本发布自动化 - 支持自动化版本发布
-
-### v1.2.5
-- 修复 DtsPanel.tsx 中的 TypeScript 类型错误
-- 优化发音人类型定义
-- 改进错误处理机制
-
-### v1.2.4
-- 添加长文本语音合成 (DTS) 支持
-- 优化音频处理性能
-- 改进 Vue 3 兼容性
-
-### v1.2.3
-- 添加实时语音识别 (RTASR) 支持
-- 优化 WebSocket 连接管理
-- 改进错误恢复策略
-
----
-
 **注意**: 使用本 SDK 需要有效的科大讯飞开发者账号和相应的 API 权限。
