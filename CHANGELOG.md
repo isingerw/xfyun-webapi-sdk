@@ -5,6 +5,15 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且此项目遵循 [语义化版本](https://semver.org/spec/v2.0.0.html)。
 
+## [1.2.8] - 2025-09-15
+
+### 改进
+- 合并 `develop` 到 `main` 与 `release-1.2.8`
+- 文档与构建流程小幅优化
+
+### 修复
+- 若干边缘场景下的日志与类型提示
+
 ## [1.2.7] - 2025-09-15
 
 ### 新功能
