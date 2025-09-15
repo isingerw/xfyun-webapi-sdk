@@ -184,7 +184,7 @@
 </template>
 
 <script>
-import { ref, onBeforeUnmount, watch } from "vue";
+import { ref, onBeforeUnmount, watch, onMounted } from "vue";
 import { useTts, getSharedAudioContext } from "xfyun-webapi-sdk/vue";
 import { checkServiceHealth } from "../utils/health";
 import { appendLog, safePublishLog } from "./logUtils";
@@ -369,6 +369,17 @@ export default {
     }
 
     onBeforeUnmount(stop);
+
+    // 进入页面后自动播放
+    onMounted(() => {
+      if (text.value && text.value.trim()) {
+        const timer = setTimeout(() => {
+          speakAction();
+        }, 0);
+        // 避免潜在的计时器泄露
+        onBeforeUnmount(() => clearTimeout(timer));
+      }
+    });
 
     async function checkHealth() {
       try {
